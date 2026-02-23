@@ -42,3 +42,13 @@ export async function markAsSold(id: number) {
 
   if (error) throw new Error(error.message);
 }
+/*
+export async function markAsSold(id: number) {
+  const { error } = await supabase
+    .from("inmuebles")
+    .update({ estado: "vendido" })
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
+}
+  */
