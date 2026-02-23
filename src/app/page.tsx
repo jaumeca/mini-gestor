@@ -12,8 +12,6 @@ type Inmueble = {
 
 export default function Page() {
   const [inmuebles, setInmuebles] = useState<Inmueble[]>([]);
-  const [titulo, setTitulo] = useState("");
-  const [precio, setPrecio] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   async function fetchInmuebles() {
@@ -34,25 +32,6 @@ export default function Page() {
     fetchInmuebles();
   }, []);
 
-  async function crearInmueble(e: React.FormEvent) {
-    e.preventDefault();
-
-    const { error } = await supabase.from("inmuebles").insert({
-      titulo,
-      precio: Number(precio),
-      estado: "disponible",
-    });
-
-    if (error) {
-      setError(error.message);
-      return;
-    }
-
-    setTitulo("");
-    setPrecio("");
-    fetchInmuebles();
-  }
-
   async function marcarVendido(id: number) {
     await supabase
       .from("inmuebles")
@@ -72,79 +51,67 @@ export default function Page() {
   }
 
   return (
-    <main className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">MiniGestor Inmobiliario</h1>
+    <main className="min-h-screen bg-gray-100 p-6">
+      <div className="max-w-6xl mx-auto flex gap-6">
 
-      {/* FORM CREAR */}
-      <form
-        onSubmit={crearInmueble}
-        className="mb-6 flex gap-3 items-end"
-      >
-        <div>
-          <label className="block text-sm">Título</label>
-          <input
-            className="border rounded px-3 py-2"
-            value={titulo}
-            onChange={(e) => setTitulo(e.target.value)}
-            required
-          />
-        </div>
+        {/* LISTADO */}
+        <div className="flex-1 bg-white rounded-lg shadow p-6">
+          <h1 className="text-2xl font-bold mb-6">
+            Mis Inmuebles
+          </h1>
 
-        <div>
-          <label className="block text-sm">Precio</label>
-          <input
-            type="number"
-            className="border rounded px-3 py-2"
-            value={precio}
-            onChange={(e) => setPrecio(e.target.value)}
-            required
-          />
-        </div>
+          {error && (
+            <p className="text-red-600 mb-4">{error}</p>
+          )}
 
-        <button className="bg-black text-white px-4 py-2 rounded">
-          Añadir
-        </button>
-      </form>
+          <div className="space-y-4">
+            {inmuebles.map((i) => (
+              <div
+                key={i.id}
+                className="border rounded p-4 flex justify-between items-center"
+              >
+                <div>
+                  <p className="font-semibold">{i.titulo}</p>
+                  <p className="text-sm text-gray-600">
+                    {i.precio} € — {i.estado}
+                  </p>
+                </div>
 
-      {error && (
-        <p className="text-red-600 mb-4">{error}</p>
-      )}
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="number"
+                    defaultValue={i.precio}
+                    className="border px-2 py-1 rounded w-24"
+                    onBlur={(e) =>
+                      actualizarPrecio(i.id, Number(e.target.value))
+                    }
+                  />
 
-      {/* LISTADO */}
-      <div className="space-y-4">
-        {inmuebles.map((i) => (
-          <div
-            key={i.id}
-            className="border rounded p-4 flex justify-between items-center"
-          >
-            <div>
-              <p className="font-semibold">{i.titulo}</p>
-              <p className="text-sm text-gray-600">
-                {i.precio} € — {i.estado}
-              </p>
-            </div>
-
-            <div className="flex gap-2 items-center">
-              <input
-                type="number"
-                defaultValue={i.precio}
-                className="border px-2 py-1 rounded w-24"
-                onBlur={(e) =>
-                  actualizarPrecio(i.id, Number(e.target.value))
-                }
-              />
-
-              {i.estado === "disponible" && (
-                <button
-                  onClick={() => marcarVendido(i.id)}
-                  className="bg-blue-600 text-white px-3 py-1 rounded"
-                >
-                  Marcar vendido
-                </button>
-              )}
-            </div>
+                  {i.estado === "disponible" && (
+                    <button
+                      onClick={() => marcarVendido(i.id)}
+                      className="bg-blue-600 text-white px-3 py-1 rounded"
+                    >
+                      Marcar vendido
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+
+        {/* BARRA LATERAL DERECHA */}
+        <div className="w-56 flex flex-col gap-4">
+          <button className="bg-black text-white py-4 rounded-lg shadow hover:opacity-90">
+            Añadir inmueble
+          </button>
+
+          <button className="bg-gray-300 py-4 rounded-lg shadow hover:opacity-90">
+            Ayuda
+          </button>
+        </div>
+
       </div>
     </main>
   );
