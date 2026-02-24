@@ -15,7 +15,7 @@ export function SidebarActions(props: {
   showEdit: boolean;
   setShowAdd: (v: boolean) => void;
   setShowEdit: (v: boolean) => void;
-  onCreate: (data: { nombrePropiedad: string; precio: number }) => Promise<void>;
+  onCreate: (data: { titulo: string; precio: number }) => Promise<void>;
   onSaveEdit: (data: { id: number; precio: number; estado: Estado }) => Promise<void>;
 }) {
   const {
