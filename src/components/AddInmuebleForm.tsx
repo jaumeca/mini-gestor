@@ -1,3 +1,6 @@
+// Formulario para añadir un nuevo inmueble, con campos para título y precio,
+//  y validación básica antes de enviar los datos.
+
 "use client";
 
 import { useState } from "react";
@@ -27,7 +30,7 @@ export function AddInmuebleForm(props: {
   return (
     <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-4 border space-y-3">
       <div>
-        <label className="block text-sm font-medium mb-1 text-black">Título</label>
+        <label className="block text-sm font-medium mb-1 text-black">Nombre del Inmueble</label>
         <input
           className="w-full rounded-md border px-3 py-2 text-black"
           placeholder="Ejemplo: Chalet con piscina"

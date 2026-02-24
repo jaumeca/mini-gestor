@@ -1,3 +1,5 @@
+// Define tipos para el estado y la estructura de un inmueble.
+
 export type Estado = "disponible" | "vendido";
 
 export type Inmueble = {

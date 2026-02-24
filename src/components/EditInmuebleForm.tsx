@@ -1,3 +1,5 @@
+// Formulario para editar un inmueble existente, con selección de inmueble, campos para precio y estado.
+
 "use client";
 
 import { useEffect, useMemo, useState } from "react";

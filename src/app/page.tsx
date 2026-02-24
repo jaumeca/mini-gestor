@@ -1,10 +1,13 @@
+// Página principal que muestra la lista de inmuebles y el sidebar con acciones, 
+// gestionando el estado de la aplicación y las interacciones del usuario.
+
 "use client";
 
 import { useEffect, useState } from "react";
 import { InmueblesList } from "../components/InmueblesList";
 import { SidebarActions } from "../components/SidebarActions";
 import type { Estado, Inmueble } from "../lib/types";
-import { createInmueble, getInmuebles, markAsSold, updateInmueble } from "../lib/inmueblesApi";
+import { crearInmueble, getInmuebles, marcarComoVendido, updateInmueble } from "../lib/inmueblesApi";
 
 export default function Page() {
   const [inmuebles, setInmuebles] = useState<Inmueble[]>([]);
@@ -16,7 +19,7 @@ export default function Page() {
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
-  async function refresh() {
+  async function actualizar() {
     setError(null);
     try {
       const data = await getInmuebles();
@@ -27,16 +30,16 @@ export default function Page() {
   }
 
   useEffect(() => {
-    refresh();
+    actualizar();
   }, []);
 
   async function handleCreate(data: { titulo: string; precio: number }) {
     setError(null);
     setBusy(true);
     try {
-      await createInmueble(data);
+      await crearInmueble(data);
       setShowAdd(false);
-      await refresh();
+      await actualizar();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error desconocido");
     } finally {
@@ -50,7 +53,7 @@ export default function Page() {
     try {
       await updateInmueble(data);
       setShowEdit(false);
-      await refresh();
+      await actualizar();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error desconocido");
     } finally {
@@ -62,8 +65,8 @@ export default function Page() {
     setError(null);
     setBusyVenderId(id);
     try {
-      await markAsSold(id);
-      await refresh();
+      await marcarComoVendido(id);
+      await actualizar();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error desconocido");
     } finally {
@@ -85,7 +88,7 @@ export default function Page() {
             inmuebles={inmuebles}
             busy={busy}
             busyVenderId={busyVenderId}
-            onRefresh={refresh}
+            onRefresh={actualizar}
             onMarkSold={handleMarkSold}
           />
         </div>

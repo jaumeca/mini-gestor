@@ -1,7 +1,11 @@
+// Componente lateral con acciones para añadir, editar, crear inmuebles de prueba y borrar todos los inmuebles.
+
 "use client";
 
 import { AddInmuebleForm } from "./AddInmuebleForm";
 import { EditInmuebleForm } from "./EditInmuebleForm";
+import { crearInmueblesFicticios, borrarTodosInmuebles } from "../lib/inmueblesApi";
+import { TEXTO_AYUDA } from "../lib/texto";
 import type { Estado, Inmueble } from "../lib/types";
 
 export function SidebarActions(props: {
@@ -11,7 +15,7 @@ export function SidebarActions(props: {
   showEdit: boolean;
   setShowAdd: (v: boolean) => void;
   setShowEdit: (v: boolean) => void;
-  onCreate: (data: { titulo: string; precio: number }) => Promise<void>;
+  onCreate: (data: { nombrePropiedad: string; precio: number }) => Promise<void>;
   onSaveEdit: (data: { id: number; precio: number; estado: Estado }) => Promise<void>;
 }) {
   const {
@@ -54,17 +58,34 @@ export function SidebarActions(props: {
       {showEdit && (
         <EditInmuebleForm inmuebles={inmuebles} busy={busy} onSave={onSaveEdit} />
       )}
-
       <button
         className="bg-black text-white py-4 rounded-lg shadow hover:opacity-90"
         onClick={() =>
-          alert(
-            "Ayuda:\n- Añadir inmueble: crea un inmueble disponible.\n- En la lista puedes marcar vendido.\n- Editar inmueble: selecciona uno y actualiza precio/estado."
-          )
+          alert(TEXTO_AYUDA)
         }
       >
         Ayuda
       </button>
+      <button
+        className="bg-black text-white py-4 rounded-lg shadow hover:opacity-90"
+        onClick={async () => {
+                await crearInmueblesFicticios({ cantidad: 2 });
+                              }
+                }
+      >
+        Crear 2 inmuebles de prueba
+      </button>
+      <button
+        className="bg-black text-white py-4 rounded-lg shadow hover:opacity-90"
+        onClick={async () => {
+        const confirmado = confirm("¿Seguro que quieres borrar TODOS los inmuebles?");
+
+        if (!confirmado) return;
+
+        await borrarTodosInmuebles();
+        }}>
+  Borrar todos los inmuebles
+</button>
     </aside>
   );
 }

@@ -1,0 +1,24 @@
+IA utilizada: CHAT GPT
+Versión: 5.2 (febrero 2026)
+
+Explicación: ¿Qué es Next.JS? ¿Qué es Supabase? ¿Cómo unir front-end y back-end?
+
+Resolver dudas técnicas sobre Next.js.
+Entender la integración correcta con Supabase.
+Mejorar la organización del código separando componentes y capa de datos.
+Generar ejemplos de funciones (insert masivo, reset de tabla, datos ficticios).
+Refinar decisiones de arquitectura y buenas prácticas.
+
+Gran parte del código HTML ha sido generado por inteligencia artificial y posteriormente mejorado y 
+adaptado para llegar a la solución que se queria alcanzar.
+
+
+Desglose horario:
+
+1. Planteamiento del problema: 25 minutos.
+2. Creación base de datos: 15 minutos.
+3. Creación repositorio github + instalación NodeJS: 15 minutos.
+4. Implementación mostrado de lista de elementos de la BBDD: 35 minutos.
+5. Implementación diseño separado de botones/tabla: 25 minutos.
+6. Creación de formularios de creación/edición: 1 hora.
+7. Implementación de borradoTotal(permisosSQL) + inserciónRandom: 1 hora.

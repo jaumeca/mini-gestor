@@ -1,3 +1,5 @@
+// Componente principal que muestra la lista de inmuebles, con opciones para refrescar y marcar como vendido.
+
 "use client";
 
 import type { Inmueble } from "../lib/types";
